@@ -14,10 +14,14 @@ import { unpackServerStreetData } from '../streets/xhr'
 import { resizeStreetWidth, recalculateOccupiedWidth } from '../streets/width'
 import { getAuthHeader } from '../users/authentication'
 import { propagateUnits } from '../users/localization'
-import { galleryState, updateGallerySelection, segmentsChanged } from './view'
+import { segmentsChanged } from './view'
+
+let lastRequestedStreetId = null
 
 export function fetchGalleryStreet (streetId) {
   showBlockingShield()
+
+  lastRequestedStreetId = streetId
 
   const url = API_URL + 'v1/streets/' + streetId
   const options = {
@@ -33,7 +37,6 @@ export function fetchGalleryStreet (streetId) {
     })
     .then(function (data) {
       hideBlockingShield()
-      galleryState.loaded = true
       return data
     })
     .then(receiveGalleryStreet)
@@ -41,14 +44,13 @@ export function fetchGalleryStreet (streetId) {
 }
 
 function errorReceiveGalleryStreet () {
-  galleryState.streetId = getStreet().id
-  updateGallerySelection()
+  // updateGallerySelection()
 }
 
 // TODO similar to receiveLastStreet
 function receiveGalleryStreet (transmission) {
-  // Is this necessary?
-  if (transmission.id !== galleryState.streetId) {
+  // Reject stale transmissions
+  if (transmission.id !== lastRequestedStreetId) {
     return
   }
 

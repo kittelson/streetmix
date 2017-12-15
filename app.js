@@ -31,7 +31,8 @@ app.locals.config = config
 const helmetConfig = {
   frameguard: false, // Allow Streetmix to be iframed in 3rd party sites
   hsts: {
-    maxAge: 7776000 // 90 days
+    maxAge: 5184000, // 60 days
+    includeSubDomains: false // we don't have a wildcard ssl cert
   },
   referrerPolicy: {
     policy: 'no-referrer-when-downgrade'
@@ -43,7 +44,7 @@ const helmetConfig = {
       scriptSrc: [
         "'self'",
         'platform.twitter.com',
-        'www.google-analytics.com',
+        'https://www.google-analytics.com',
         'cdn.mxpnl.com',
         '*.global.ssl.fastly.net',
         'search.mapzen.com',
@@ -56,7 +57,7 @@ const helmetConfig = {
         'data:',
         'pbs.twimg.com',
         'syndication.twitter.com',
-        'www.google-analytics.com',
+        'https://www.google-analytics.com',
         '*.global.ssl.fastly.net'
       ],
       fontSrc: ["'self'", 'fonts.gstatic.com'],
@@ -64,7 +65,8 @@ const helmetConfig = {
         'freegeoip.net',
         'api.mixpanel.com',
         'search.mapzen.com',
-        'syndication.twitter.com'
+        'syndication.twitter.com',
+        'https://www.google-analytics.com'
       ]
     }
   }

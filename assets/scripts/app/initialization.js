@@ -1,7 +1,7 @@
-import { hideLoadingScreen, getImagesToBeLoaded } from './load_resources'
+import { hideLoadingScreen, checkIfImagesLoaded } from './load_resources'
 import { initLocale } from './locale'
 import { scheduleNextLiveUpdateCheck } from './live_update'
-import { showGallery, attachGalleryViewEventListeners } from '../gallery/view'
+import { showGallery } from '../gallery/view'
 import { app } from '../preinit/app_settings'
 import { debug } from '../preinit/debug_settings'
 import { system } from '../preinit/system_capabilities'
@@ -31,12 +31,11 @@ import { ENV } from './config'
 import { addEventListeners } from './event_listeners'
 import { trackEvent } from './event_tracking'
 import { getMode, setMode, MODES, processMode } from './mode'
-import { processUrl, updatePageUrl, getGalleryUserId } from './page_url'
+import { processUrl, updatePageUrl } from './page_url'
 import { onResize } from './window_resize'
 import { attachBlockingShieldEventListeners } from './blocking_shield'
 import { registerKeypresses } from './keyboard_commands'
 import { infoBubble } from '../info_bubble/info_bubble'
-import { attachGalleryScrollEventListeners } from '../gallery/scroll'
 import { attachStreetScrollEventListeners } from '../streets/scroll'
 import { attachFetchNonBlockingEventListeners } from '../util/fetch_nonblocking'
 import store from '../store'
@@ -83,8 +82,6 @@ function preInit () {
   attachBlockingShieldEventListeners()
   registerKeypresses()
   infoBubble.registerKeypresses()
-  attachGalleryScrollEventListeners()
-  attachGalleryViewEventListeners()
   attachStreetScrollEventListeners()
   attachFetchNonBlockingEventListeners()
 }
@@ -147,10 +144,12 @@ export function checkIfEverythingIsLoaded () {
     return
   }
 
-  if ((getImagesToBeLoaded() === 0) && isSignInLoaded() && bodyLoaded &&
-    readyStateCompleteLoaded && wasGeolocationAttempted() && serverContacted) {
-    onEverythingLoaded()
-  }
+  checkIfImagesLoaded().then(() => {
+    if (isSignInLoaded() && bodyLoaded &&
+      readyStateCompleteLoaded && wasGeolocationAttempted() && serverContacted) {
+      onEverythingLoaded()
+    }
+  })
 }
 
 function onEverythingLoaded () {
@@ -185,7 +184,7 @@ function onEverythingLoaded () {
 
   var mode = getMode()
   if (mode === MODES.USER_GALLERY) {
-    showGallery(getGalleryUserId(), true)
+    showGallery(store.getState().gallery.userId, true)
   } else if (mode === MODES.GLOBAL_GALLERY) {
     showGallery(null, true)
   }

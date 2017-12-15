@@ -28,7 +28,7 @@ body.touch-support .non-touch-only {
   display: none;
 }
 
-#main-screen {
+.main-screen {
   position: absolute;
   left: 0;
   top: 0;
@@ -77,4 +77,3 @@ textarea {
     border-color: desaturate($ui-colour, 100%) !important;
   }
 }
-
