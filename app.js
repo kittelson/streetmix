@@ -83,19 +83,19 @@ app.use(requestHandlers.request_log)
 app.use(requestHandlers.request_id_echo)
 
 // Permanently redirect http to https in production.
-app.use(function (req, res, next) {
-  if (app.locals.config.env === 'production') {
+//app.use(function (req, res, next) {
+//  if (app.locals.config.env === 'production') {
     // req.secure is Express's flag for a secure request, but this is not available
     // on Heroku, which uses a header instead.
-    if (req.secure === true || req.headers['x-forwarded-proto'] !== 'https') {
-      res.redirect(301, 'https://' + req.hostname + req.originalUrl)
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
+//    if (req.secure === true || req.headers['x-forwarded-proto'] !== 'https') {
+//      res.redirect(301, 'https://' + req.hostname + req.originalUrl)
+//    } else {
+//      next()
+//    }
+//  } else {
+//    next()
+//  }
+//})
 
 app.set('view engine', 'jade')
 app.set('views', path.join(__dirname, '/app/views'))
