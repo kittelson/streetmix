@@ -41,6 +41,7 @@ class MiscHTMLStuff extends React.PureComponent {
           </section>
         </section>
         <section id="street-section-sky">
+	  <div className="kai-cloud" />
           <div className="rear-clouds" />
           <div className="front-clouds" />
         </section>

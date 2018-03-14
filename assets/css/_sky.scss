@@ -30,18 +30,28 @@
 
 .rear-clouds {
   height: 120px;
-  bottom: 480px;
+  bottom: 735px;
   background-image: url('/images/sky-rear.png');
   background-size: 250px 120px;
 }
 
 .front-clouds {
   height: 280px;
-  bottom: 0;
-  border-bottom: 200px solid rgb(165, 196, 209);
+  bottom: 405px;
+  border-bottom: 50px solid rgb(165, 196, 209);
   background-image: url('/images/sky-front.png');
   background-size: 250px 280px;
   opacity: 0.5;
+}
+
+.kai-cloud {
+  height: 120px;
+  bottom: 735px;
+  left: 600px;
+  opacity: 1;
+  background-image: url("/images/kai-cloud.svg");
+  background-repeat: no-repeat;
+  background-size: 2200px 133px;
 }
 
 // A setting activates this class and turns on environmental animations

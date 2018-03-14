@@ -92,19 +92,23 @@ export function updateSettingsFromCountryCode (countryCode) {
     leftHandTraffic = true
   }
 
-  updateUnitSettings(countryCode)
+  updateUnitSettings('US')
 }
 
 export function updateUnitSettings (countryCode) {
   let localStorageUnits = window.localStorage[LOCAL_STORAGE_SETTINGS_UNITS_ID]
-
+//  var logger = require('../../../lib/logger.js')()
+//  logger.info("Updating units")
   if (localStorageUnits) {
     store.dispatch(setUserUnits(parseInt(localStorageUnits)))
   } else if (debug.forceMetric) {
+ //   logger.info("debug.forceMetric is true")
     saveUserUnits(SETTINGS_UNITS_METRIC)
   } else if (COUNTRIES_IMPERIAL_UNITS.indexOf(countryCode) !== -1) {
+   // logger.info("Country code is 'US'")
     saveUserUnits(SETTINGS_UNITS_IMPERIAL)
   } else {
+  //  logger.info("Defaulting to Metric")
     saveUserUnits(SETTINGS_UNITS_METRIC)
   }
 }
